@@ -13,10 +13,12 @@ public:
 	int GetSpeed();
 	int GetGear();
 	int GetDirection();
+	void SetDirection();
 private:
 	bool m_isTurnedOn;
 	int m_gear;
 	int m_speed;
+	int m_direction;
 };
 
 struct SpeedRange{

@@ -10,6 +10,7 @@ CCar::CCar()
 :m_isTurnedOn(false)
 , m_gear(0)
 , m_speed(0)
+, m_direction(0)
 {
 }
 
@@ -49,7 +50,7 @@ bool CCar::TurnOffEngine()
 
 bool CCar::SetGear(int gear)
 {
-	if (gear == -1 && m_gear > 0 || gear > 0 && m_gear == -1)
+	if (gear > 5 || gear < -1)
 	{
 		return false;
 	}
@@ -73,6 +74,10 @@ bool CCar::SetGear(int gear)
 	}
 	if (m_speed >= SpeedRangeArray[gear + 1].minSpeed && m_speed <= SpeedRangeArray[gear + 1].maxSpeed)
 	{
+		if (m_direction == 1 && gear < 0 || m_direction == -1 && gear > 0)
+		{
+			return false;
+		}
 		m_gear = gear;
 		return true;
 	}
@@ -85,9 +90,15 @@ bool CCar::SetSpeed(int speed)
 	{
 		return false;
 	}
-	if (speed <= -20 || speed >= 150)
+	if (speed < -20 || speed > 150)
 	{
 		return false;
+	}
+	if (speed < m_speed && m_gear == 0)
+	{
+		m_speed = speed;
+		SetDirection();
+		return true;
 	}
 	if (speed != 0 && m_gear == 0)
 	{
@@ -95,7 +106,12 @@ bool CCar::SetSpeed(int speed)
 	}
 	if (speed <= SpeedRangeArray[m_gear + 1].maxSpeed && speed >= SpeedRangeArray[m_gear + 1].minSpeed)
 	{
+		if (m_direction == 1 && m_gear < 0 || m_direction == -1 && m_gear > 0)
+		{
+			return false;
+		}
 		m_speed = speed;
+		SetDirection();
 		return true;
 	}
 	return false;
@@ -111,15 +127,23 @@ int CCar::GetGear()
 	return m_gear;
 }
 
-int CCar::GetDirection()
+void CCar::SetDirection()
 {
 	if (m_speed == 0)
 	{
-		return 0;
+		m_direction = 0;
 	}
-	if (m_gear == -1)
+	if (m_gear == -1 && m_speed != 0)
 	{
-		return -1;
+		m_direction = -1;
 	}
-	return 1;
+	if (m_gear > 0 && m_speed != 0)
+	{
+		m_direction = 1;
+	}
+}
+
+int CCar::GetDirection()
+{
+	return m_direction;
 }

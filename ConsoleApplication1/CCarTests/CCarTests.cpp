@@ -1,4 +1,4 @@
-// CCarTests.cpp : Defines the entry point for the console application.
+п»ї// CCarTests.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
@@ -10,207 +10,231 @@ struct CCarFixture
 };
 
 /*
-	Тесты для 3ей лабы, 2ое задание:
-	- Проверка, включен ли двигатель изначально
-	- Можно ли включить двигатель
-	- Можно ли выключить двигатель (в состоянии покоя, когда движется, когда передача != 0)
-	- Можно ли при нейтральной передачи переключиться на первую или заднюю
-	- Проверить направление движения (при положительной скорости, при отрицательной скорости)
-	- Можно ли переключиться с задней передачи на первую
-	- Переключение передачи саму на себя
-	- С заднего хода на нейтральную при 0 скорости
-	- С заднего хода на нейтральную при не 0 скорости
-	- Со 2й передачи на нейтральную
-	- Со скоростью 10 нейтральную включить
-	- Со 2 передачи на 4 переключить
-	- Переключить передачу с недопустимой скоростью
-	- На 1й передаче при скорости 10 заднюю включить и наоборот
+	РўР•РЎРўР«:
+	- Р”РІРёРіР°С‚РµР»СЊ Р°РІС‚РѕРјРѕР±РёР»СЏ РјРѕР¶РµС‚ РЅР°С…РѕРґРёС‚СЊСЃСЏ РєР°Рє РІРѕ РІРєР»СЋС‡РµРЅРЅРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё, С‚Р°Рє Рё РІ РІС‹РєР»СЋС‡РµРЅРЅРѕРј.
+	- Р’ Р°РІС‚РѕРјРѕР±РёР»Рµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РІРєР»СЋС‡РµРЅР° РѕРґРЅР° РёР· СЃР»РµРґСѓСЋС‰РёС… РїРµСЂРµРґР°С‡:
+		п‚· Р—Р°РґРЅРёР№ С…РѕРґ (-1)
+		п‚· РќРµР№С‚СЂР°Р»СЊРЅР°СЏ РїРµСЂРµРґР°С‡Р° (0)
+		п‚· РџРµСЂРІР°СЏ РїРµСЂРµРґР°С‡Р° (1)
+		п‚· Р’С‚РѕСЂР°СЏ РїРµСЂРµРґР°С‡Р° (2)
+		п‚· РўСЂРµС‚СЊСЏ РїРµСЂРµРґР°С‡Р° (3)
+		п‚· Р§РµС‚РІРµСЂС‚Р°СЏ РїРµСЂРµРґР°С‡Р° (4)
+		п‚· РџСЏС‚Р°СЏ РїРµСЂРµРґР°С‡Р° (5)
+		п‚· Р”СЂСѓРіРёРµ РїРµСЂРµРґР°С‡Рё РІРєР»СЋС‡РёС‚СЊ РЅРµРІРѕР·РјРѕР¶РЅРѕ
+	- РќР° РєР°Р¶РґРѕР№ РїРµСЂРµРґР°С‡Рµ РјРѕР¶РЅРѕ СЂР°Р·РІРёС‚СЊ СЃРєРѕСЂРѕСЃС‚СЊ РІ РїСЂРµРґРµР»Р°С… РѕС‚РІРµРґРµРЅРЅРѕРіРѕ РґР°РЅРЅРѕР№ РїРµСЂРµРґР°С‡Рµ РґРёР°РїР°Р·РѕРЅР°. 
+		Р—Р°РґРЅРёР№ С…РѕРґ: 0 вЂ“ 20
+		РќРµР№С‚СЂР°Р»СЊ: Р‘РµР· РѕРіСЂР°РЅРёС‡РµРЅРёР№
+		РџРµСЂРІР°СЏ: 0 вЂ“ 30
+		Р’С‚РѕСЂР°СЏ: 20 вЂ“ 50
+		РўСЂРµС‚СЊСЏ: 30 вЂ“ 60
+		Р§РµС‚РІРµСЂС‚Р°СЏ: 40 вЂ“ 90
+		РџСЏС‚Р°СЏ: 50 вЂ“ 150
+	- РќРµР№С‚СЂР°Р»СЊРЅР°СЏ РїРµСЂРµРґР°С‡Р°, РЅР° РєРѕС‚РѕСЂРѕР№ СЃРєРѕСЂРѕСЃС‚СЊ РјРѕР¶РЅРѕ РёР·РјРµРЅРёС‚СЊ С‚РѕР»СЊРєРѕ РІ СЃС‚РѕСЂРѕРЅСѓ РЅСѓР»СЏ.
+	- РќР° Р·Р°РґРЅРёР№ С…РѕРґ РјРѕР¶РЅРѕ РїРµСЂРµРєР»СЋС‡РёС‚СЊСЃСЏ С‚РѕР»СЊРєРѕ СЃ РЅРµР№С‚СЂР°Р»СЊРЅРѕР№ РёР»Рё РїРµСЂРІРѕР№ РїРµСЂРµРґР°С‡Рё РЅР° РЅСѓР»РµРІРѕР№ СЃРєРѕСЂРѕСЃС‚Рё
+	- C Р·Р°РґРЅРµРіРѕ С…РѕРґР° РјРѕР¶РЅРѕ РїРµСЂРµРєР»СЋС‡РёС‚СЊСЃСЏ РЅР° РїРµСЂРІСѓСЋ РїРµСЂРµРґР°С‡Сѓ С‚РѕР»СЊРєРѕ РЅР° РЅСѓР»РµРІРѕР№ СЃРєРѕСЂРѕСЃС‚Рё
+	- РџРµСЂРµРєР»СЋС‡РёРІС€РёСЃСЊ РЅР° Р·Р°РґРЅРµРј С…РѕРґСѓ РЅР° РЅРµР№С‚СЂР°Р»СЊРЅСѓСЋ РїРµСЂРµРґР°С‡Сѓ РЅР° РЅРµРЅСѓР»РµРІРѕР№ СЃРєРѕСЂРѕСЃС‚Рё, РїРµСЂРµРєР»СЋС‡РёС‚СЊСЃСЏ РЅР° РїРµСЂРІСѓСЋ РїРµСЂРµРґР°С‡Сѓ РјРѕР¶РЅРѕ С‚РѕР»СЊРєРѕ РїРѕСЃР»Рµ РѕСЃС‚Р°РЅРѕРІРєРё
 */
 
 BOOST_FIXTURE_TEST_SUITE(Car, CCarFixture)
 
-BOOST_AUTO_TEST_CASE(TurnedOnByDefault)
-{
-	BOOST_CHECK(!carTest.IsTurnedOn());
-}
-
-BOOST_AUTO_TEST_CASE(CanBeTurnedOn)
+BOOST_AUTO_TEST_CASE(EngineCanBeTurnOnOrTurnOff)
 {
 	BOOST_CHECK(carTest.TurnOnEngine());
 	BOOST_CHECK(carTest.IsTurnedOn());
+	BOOST_CHECK(carTest.TurnOffEngine());
+	BOOST_CHECK(!carTest.IsTurnedOn());
 }
 
-BOOST_AUTO_TEST_CASE(CanBeTurnedOff)
+BOOST_AUTO_TEST_CASE(CarCanSetGearFromMinus1To5)
+{
+	BOOST_CHECK(carTest.TurnOnEngine());
+	BOOST_CHECK(carTest.IsTurnedOn());
+	BOOST_CHECK(carTest.SetGear(-1));
+	BOOST_CHECK_EQUAL(carTest.GetGear(), -1);
+	BOOST_CHECK(carTest.SetGear(0));
+	BOOST_CHECK_EQUAL(carTest.GetGear(), 0);
+	BOOST_CHECK(carTest.SetGear(1));
+	BOOST_CHECK_EQUAL(carTest.GetGear(), 1);
+	BOOST_CHECK(carTest.SetSpeed(20));
+	BOOST_CHECK_EQUAL(carTest.GetSpeed(), 20);
+	BOOST_CHECK(carTest.SetGear(2));
+	BOOST_CHECK_EQUAL(carTest.GetGear(), 2);
+	BOOST_CHECK(carTest.SetSpeed(50));
+	BOOST_CHECK_EQUAL(carTest.GetSpeed(), 50);
+	BOOST_CHECK(carTest.SetGear(3));
+	BOOST_CHECK_EQUAL(carTest.GetGear(), 3);
+	BOOST_CHECK(carTest.SetGear(4));
+	BOOST_CHECK_EQUAL(carTest.GetGear(), 4);
+	BOOST_CHECK(carTest.SetGear(5));
+	BOOST_CHECK_EQUAL(carTest.GetGear(), 5);
+	BOOST_CHECK(!carTest.SetGear(6));
+	BOOST_CHECK_EQUAL(carTest.GetGear(), 5);
+	BOOST_CHECK(!carTest.SetGear(-2));
+	BOOST_CHECK_EQUAL(carTest.GetGear(), 5);
+}
+
+BOOST_AUTO_TEST_CASE(CheckSpeedRange)
 {
 	{
-		carTest.TurnOnEngine();
-		BOOST_CHECK(carTest.TurnOffEngine());
-		BOOST_CHECK(!carTest.IsTurnedOn());
-	}
-		
-	{
-		carTest.TurnOnEngine();
-		BOOST_CHECK(carTest.SetGear(1));
-		BOOST_CHECK_EQUAL(carTest.GetGear(), 1);
+		BOOST_CHECK(carTest.TurnOnEngine());
+		BOOST_CHECK(carTest.IsTurnedOn());
+		BOOST_CHECK(carTest.SetGear(-1));
+		BOOST_CHECK_EQUAL(carTest.GetGear(), -1);
 		BOOST_CHECK(carTest.SetSpeed(20));
 		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 20);
+		BOOST_CHECK(!carTest.SetSpeed(21));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 20);
+		BOOST_CHECK(!carTest.SetSpeed(-1));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 20);
+	}
+
+	{
 		BOOST_CHECK(carTest.SetGear(0));
 		BOOST_CHECK_EQUAL(carTest.GetGear(), 0);
-		BOOST_CHECK(!carTest.TurnOffEngine());
-	}
-
-	{
-		carTest.TurnOnEngine();
-		BOOST_CHECK(carTest.SetGear(1));
-		BOOST_CHECK_EQUAL(carTest.GetGear(), 1);
-		BOOST_CHECK(!carTest.TurnOffEngine());
-	}
-}
-
-BOOST_AUTO_TEST_CASE(ChangeGearFrom0To1AndMinus1)
-{
-	{
-		carTest.TurnOnEngine();
-		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 0);
-		BOOST_CHECK(carTest.SetGear(-1));
-		BOOST_CHECK_EQUAL(carTest.GetGear(), -1);
-	}
-
-	{
-		carTest.TurnOnEngine();
+		BOOST_CHECK(carTest.SetSpeed(0));
 		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 0);
 		BOOST_CHECK(carTest.SetGear(1));
 		BOOST_CHECK_EQUAL(carTest.GetGear(), 1);
-	}
-}
-
-BOOST_AUTO_TEST_CASE(CheckDirection)
-{
-	{
-		carTest.TurnOnEngine();
-		BOOST_CHECK(carTest.SetGear(1));
-		BOOST_CHECK_EQUAL(carTest.GetGear(), 1);
-		BOOST_CHECK(carTest.SetSpeed(20));
-		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 20);
-		BOOST_CHECK_EQUAL(carTest.GetDirection(), 1);
+		BOOST_CHECK(carTest.SetSpeed(30));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 30);
+		BOOST_CHECK(!carTest.SetSpeed(31));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 30);
+		BOOST_CHECK(!carTest.SetSpeed(-1));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 30);
 	}
 
 	{
-		carTest.TurnOnEngine();
-		BOOST_CHECK(carTest.SetGear(-1));
-		BOOST_CHECK_EQUAL(carTest.GetGear(), -1);
+		BOOST_CHECK(carTest.SetGear(2));
+		BOOST_CHECK_EQUAL(carTest.GetGear(), 2);
 		BOOST_CHECK(carTest.SetSpeed(20));
 		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 20);
-		BOOST_CHECK_EQUAL(carTest.GetDirection(), -1);
+		BOOST_CHECK(!carTest.SetSpeed(19));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 20);
+		BOOST_CHECK(carTest.SetSpeed(50));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 50);
+		BOOST_CHECK(!carTest.SetSpeed(51));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 50);
+	}
+
+	{
+		BOOST_CHECK(carTest.SetGear(3));
+		BOOST_CHECK_EQUAL(carTest.GetGear(), 3);
+		BOOST_CHECK(carTest.SetSpeed(30));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 30);
+		BOOST_CHECK(!carTest.SetSpeed(29));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 30);
+		BOOST_CHECK(carTest.SetSpeed(60));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 60);
+		BOOST_CHECK(!carTest.SetSpeed(61));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 60);
+	}
+
+	{
+		BOOST_CHECK(carTest.SetGear(4));
+		BOOST_CHECK_EQUAL(carTest.GetGear(), 4);
+		BOOST_CHECK(carTest.SetSpeed(40));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 40);
+		BOOST_CHECK(!carTest.SetSpeed(39));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 40);
+		BOOST_CHECK(carTest.SetSpeed(90));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 90);
+		BOOST_CHECK(!carTest.SetSpeed(91));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 90);
+	}
+
+	{
+		BOOST_CHECK(carTest.SetGear(5));
+		BOOST_CHECK_EQUAL(carTest.GetGear(), 5);
+		BOOST_CHECK(carTest.SetSpeed(50));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 50);
+		BOOST_CHECK(!carTest.SetSpeed(49));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 50);
+		BOOST_CHECK(carTest.SetSpeed(150));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 150);
+		BOOST_CHECK(!carTest.SetSpeed(151));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 150);
 	}
 }
 
-BOOST_AUTO_TEST_CASE(ChangeGearFromMinus1To1)
+BOOST_AUTO_TEST_CASE(CheckNeutralGear)
 {
-	carTest.TurnOnEngine();
+	BOOST_CHECK(carTest.TurnOnEngine());
+	BOOST_CHECK(carTest.IsTurnedOn());
 	BOOST_CHECK(carTest.SetGear(-1));
 	BOOST_CHECK_EQUAL(carTest.GetGear(), -1);
-	BOOST_CHECK(carTest.SetGear(1));
-	BOOST_CHECK_EQUAL(carTest.GetGear(), 1);
-}
-
-BOOST_AUTO_TEST_CASE(SelfSwitch)
-{
-	carTest.TurnOnEngine();
-	BOOST_CHECK_EQUAL(carTest.GetGear(), 0);
+	BOOST_CHECK(carTest.SetSpeed(20));
+	BOOST_CHECK_EQUAL(carTest.GetSpeed(), 20);
 	BOOST_CHECK(carTest.SetGear(0));
 	BOOST_CHECK_EQUAL(carTest.GetGear(), 0);
-}
-
-BOOST_AUTO_TEST_CASE(To0At0Speed)
-{
-	carTest.TurnOnEngine();
-	BOOST_CHECK(carTest.SetGear(-1));
-	BOOST_CHECK_EQUAL(carTest.GetGear(), -1);
+	BOOST_CHECK(carTest.SetSpeed(1));
+	BOOST_CHECK_EQUAL(carTest.GetSpeed(), 1);
+	BOOST_CHECK(carTest.SetSpeed(0));
 	BOOST_CHECK_EQUAL(carTest.GetSpeed(), 0);
-	BOOST_CHECK(carTest.SetGear(0));
-	BOOST_CHECK_EQUAL(carTest.GetGear(), 0);
+	BOOST_CHECK(!carTest.SetSpeed(1));
+	BOOST_CHECK_EQUAL(carTest.GetSpeed(), 0);
 }
 
-BOOST_AUTO_TEST_CASE(To0AtNot0Speed)
+BOOST_AUTO_TEST_CASE(CheckBackGear)
 {
-	carTest.TurnOnEngine();
+	BOOST_CHECK(carTest.TurnOnEngine());
+	BOOST_CHECK(carTest.IsTurnedOn());
+	BOOST_CHECK_EQUAL(carTest.GetGear(), 0);
 	BOOST_CHECK(carTest.SetGear(-1));
 	BOOST_CHECK_EQUAL(carTest.GetGear(), -1);
-	BOOST_CHECK(carTest.SetSpeed(20));
-	BOOST_CHECK_EQUAL(carTest.GetSpeed(), 20);
-	BOOST_CHECK(carTest.SetGear(0));
+	BOOST_CHECK(carTest.SetGear(1));
+	BOOST_CHECK_EQUAL(carTest.GetGear(), 1);
+	BOOST_CHECK(carTest.SetSpeed(1));
+	BOOST_CHECK_EQUAL(carTest.GetSpeed(), 1);
+	BOOST_CHECK(!carTest.SetGear(-1));
+	BOOST_CHECK_EQUAL(carTest.GetGear(), 1);
+	BOOST_CHECK(carTest.SetSpeed(0));
+	BOOST_CHECK_EQUAL(carTest.GetSpeed(), 0);
+	BOOST_CHECK(carTest.SetGear(-1));
+	BOOST_CHECK_EQUAL(carTest.GetGear(), -1);
+}
+
+BOOST_AUTO_TEST_CASE(FromBackGear)
+{
+	BOOST_CHECK(carTest.TurnOnEngine());
+	BOOST_CHECK(carTest.IsTurnedOn());
 	BOOST_CHECK_EQUAL(carTest.GetGear(), 0);
-}
-
-BOOST_AUTO_TEST_CASE(From2GearTo0)
-{
-	carTest.TurnOnEngine();
 	BOOST_CHECK(carTest.SetGear(1));
 	BOOST_CHECK_EQUAL(carTest.GetGear(), 1);
 	BOOST_CHECK(carTest.SetSpeed(20));
 	BOOST_CHECK_EQUAL(carTest.GetSpeed(), 20);
-	BOOST_CHECK(carTest.SetGear(2));
-	BOOST_CHECK_EQUAL(carTest.GetGear(), 2);
-	BOOST_CHECK(carTest.SetGear(0));
-	BOOST_CHECK_EQUAL(carTest.GetGear(), 0);
+	BOOST_CHECK(!carTest.SetGear(-1));
+	BOOST_CHECK_EQUAL(carTest.GetGear(), 1);
+	BOOST_CHECK(carTest.SetSpeed(0));
+	BOOST_CHECK_EQUAL(carTest.GetSpeed(), 0);
+	BOOST_CHECK(carTest.SetGear(-1));
+	BOOST_CHECK_EQUAL(carTest.GetGear(), -1);
 }
 
-BOOST_AUTO_TEST_CASE(With10SpeedTo0Gear)
-{
-	carTest.TurnOnEngine();
-	BOOST_CHECK(carTest.SetGear(1));
-	BOOST_CHECK_EQUAL(carTest.GetGear(), 1);
-	BOOST_CHECK(carTest.SetSpeed(10));
-	BOOST_CHECK_EQUAL(carTest.GetSpeed(), 10);
-	BOOST_CHECK(carTest.SetGear(0));
-	BOOST_CHECK_EQUAL(carTest.GetGear(), 0);
-}
-
-BOOST_AUTO_TEST_CASE(From2GearTo4Gear)
-{
-	carTest.TurnOnEngine();
-	BOOST_CHECK(carTest.SetGear(1));
-	BOOST_CHECK_EQUAL(carTest.GetGear(), 1);
-	BOOST_CHECK(carTest.SetSpeed(20));
-	BOOST_CHECK_EQUAL(carTest.GetSpeed(), 20);
-	BOOST_CHECK(carTest.SetGear(2));
-	BOOST_CHECK_EQUAL(carTest.GetGear(), 2);
-	BOOST_CHECK(!carTest.SetGear(4));
-	BOOST_CHECK_EQUAL(carTest.GetGear(), 2);
-}
-
-BOOST_AUTO_TEST_CASE(SwitchGearWithIllegalSpeed)
-{
-	carTest.TurnOnEngine();
-	BOOST_CHECK(carTest.SetGear(1));
-	BOOST_CHECK_EQUAL(carTest.GetGear(), 1);
-	BOOST_CHECK(carTest.SetSpeed(20));
-	BOOST_CHECK_EQUAL(carTest.GetSpeed(), 20);
-	BOOST_CHECK(!carTest.SetGear(5));
-	BOOST_CHECK_EQUAL(carTest.GetGear(), 1);
-}
-
-BOOST_AUTO_TEST_CASE(From1GearWith10SpeedToMinus1)
+BOOST_AUTO_TEST_CASE(FromBackToNeutral)
 {
 	{
-		carTest.TurnOnEngine();
-		BOOST_CHECK(carTest.SetGear(1));
-		BOOST_CHECK_EQUAL(carTest.GetGear(), 1);
-		BOOST_CHECK(carTest.SetSpeed(10));
-		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 10);
-		BOOST_CHECK(!carTest.SetGear(-1));
-		BOOST_CHECK_EQUAL(carTest.GetGear(), 1);
+		BOOST_CHECK(carTest.TurnOnEngine());
+		BOOST_CHECK(carTest.IsTurnedOn());
+		BOOST_CHECK_EQUAL(carTest.GetGear(), 0);
+		BOOST_CHECK(carTest.SetGear(-1));
+		BOOST_CHECK_EQUAL(carTest.GetGear(), -1);
+		BOOST_CHECK(carTest.SetSpeed(1));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 1);
+		BOOST_CHECK(carTest.SetGear(0));
+		BOOST_CHECK_EQUAL(carTest.GetGear(), 0);
+		BOOST_CHECK(!carTest.SetGear(1));
+		BOOST_CHECK_EQUAL(carTest.GetGear(), 0);
 	}
 
 	{
-		carTest.TurnOnEngine();
 		BOOST_CHECK(carTest.SetGear(-1));
 		BOOST_CHECK_EQUAL(carTest.GetGear(), -1);
-		BOOST_CHECK(carTest.SetSpeed(10));
-		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 10);
-		BOOST_CHECK(!carTest.SetGear(1));
-		BOOST_CHECK_EQUAL(carTest.GetGear(), -1);
+		BOOST_CHECK(carTest.SetSpeed(0));
+		BOOST_CHECK_EQUAL(carTest.GetSpeed(), 0);
+		BOOST_CHECK(carTest.SetGear(0));
+		BOOST_CHECK_EQUAL(carTest.GetGear(), 0);
+		BOOST_CHECK(carTest.SetGear(1));
+		BOOST_CHECK_EQUAL(carTest.GetGear(), 1);
 	}
 }
 

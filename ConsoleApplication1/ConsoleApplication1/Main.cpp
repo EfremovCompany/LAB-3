@@ -5,7 +5,7 @@ using namespace std;
 
 void PrintMenu()
 {
-	cout << "|-------------------|\n1- Info \n2 - EngineOn \n3 - EngineOff \n4 - SetGear \n5 - SetSpeed\n0 - Exit\n|-------------------|" << endl;
+	cout << "|-------------------|\n1- Info \n2 - EngineOn \n3 - EngineOff \n4 - SetGear \n5 - SetSpeed\n0 - Exit\n|-------------------|\nYour choise: ";
 }
 
 void Menu(int choise, CCar* obj)
@@ -59,8 +59,8 @@ int main()
 	do
 	{
 		PrintMenu();
-		cout << "Your choise: ";
 		cin >> answer;
+		cout << "|-------------------|" << endl;
 		Menu(answer, obj);
 	} while (answer != 0);
 	system("Pause");
